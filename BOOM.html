@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISTEM CRITIC COMPROMIS - DECRYPTARE PENTRU ARI</title>
+    <style>
+        /* --- STILURI DE BAZĂ și EFECTE AVANSATE --- */
+        :root {
+            --verde-neon: #00ff41;
+            --rosu-critic: #ff3333;
+            --galben-alerta: #fff000;
+            --indiciu-doi: 7; /* <--- INDICIU #2: Valoarea duratei */
+        }
+
+        body {
+            font-family: 'Consolas', 'Courier New', monospace; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #050505; 
+            color: var(--verde-neon); 
+            overflow: hidden; 
+            /* Efect de scanline TV vechi */
+            background-image: linear-gradient(rgba(0,0,0,0.4) 1px, transparent 1px);
+            background-size: 100% 4px;
+        }
+        
+        /* Efect de alertă pulsant pe fundal */
+        .alert-bg {
+            animation: alertFlash 0.3s infinite alternate;
+        }
+
+        @keyframes alertFlash {
+            from { background-color: #050505; }
+            to { background-color: #330000; }
+        }
+
+        /* Containerul principal de hacking */
+        #container {
+            text-align: center;
+            padding: 50px;
+            border: 5px double var(--verde-neon); 
+            box-shadow: 0 0 25px rgba(0, 255, 65, 0.8), inset 0 0 10px rgba(0, 255, 65, 0.5); 
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10; 
+            transition: all 0.5s ease;
+        }
+        
+        /* Titlu - Culoare și Shadow mai intense */
+        h1 {
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            color: var(--galben-alerta); 
+            text-shadow: 0 0 10px var(--galben-alerta);
+            animation: flicker 1s steps(1) infinite alternate;
+        }
+        
+        @keyframes flicker {
+            0% { opacity: 1; }
+            50% { opacity: 0.8; text-shadow: 0 0 5px var(--galben-alerta); }
+            100% { opacity: 1; }
+        }
+        
+        /* Mesajul Virus */
+        #mesaj-virus {
+            font-size: 1.4em;
+            color: var(--rosu-critic);
+            margin-bottom: 25px;
+            text-shadow: 0 0 8px var(--rosu-critic);
+        }
+
+        /* Countdown */
+        #timp-ramas {
+            font-size: 9em; 
+            font-weight: 900;
+            text-shadow: 0 0 20px var(--verde-neon); 
+            margin: 10px 0;
+            transition: color 0.5s, text-shadow 0.5s, transform 0.2s;
+        }
+        
+        /* Input Code */
+        #input-cod {
+            padding: 12px;
+            margin-top: 20px;
+            font-size: 2em; 
+            width: 220px;
+            text-align: center;
+            background-color: #111;
+            color: var(--verde-neon);
+            border: 2px solid var(--verde-neon);
+            box-shadow: 0 0 10px var(--verde-neon), inset 0 0 5px var(--verde-neon);
+            outline: none;
+        }
+        
+        /* --- ZONA DE REVELAȚIE (Pisici & Mesaj) --- */
+        #reveal-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none; 
+            background-color: #000;
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Pisici */
+        .reveal-cat-image {
+            width: 350px; 
+            height: 350px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 0 30px #ffffff; 
+            position: absolute;
+            opacity: 0; 
+            transition: opacity 1s ease-in-out, transform 1s;
+        }
+
+        /* Pozițiile pisicilor, cu un mic decalaj inițial */
+        #cat-final-1 { top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); }
+        #cat-final-2 { top: 0; left: 0; transform: rotate(-25deg) translate(50px, 50px); }
+        #cat-final-3 { bottom: 0; right: 0; transform: rotate(25deg) translate(-50px, -50px); }
+        #cat-final-4 { top: 0; right: 0; transform: rotate(15deg) translate(-50px, 50px); } 
+        #cat-final-5 { bottom: 0; left: 0; transform: rotate(-15deg) translate(50px, -50px); } 
+
+        /* --- MESAJUL FINAL --- */
+        .final-reveal {
+            position: absolute;
+            text-align: center;
+            line-height: 1.1;
+            z-index: 110; 
+        }
+
+        /* Efect de Glitch Super Intens */
+        .glitch-text {
+            font-size: 10em;
+            font-weight: 900;
+            color: white;
+            position: relative;
+            animation: superGlitch 0.05s steps(1) infinite;
+        }
+        
+        /* Am îmbunătățit animația glitch pentru a fi mai dramatică */
+        @keyframes superGlitch {
+            0% { text-shadow: 0.05em 0 0 #ff00ff, -0.05em 0 0 #00ffff; transform: translate(0.02em, 0.02em); opacity: 0.7; }
+            25% { text-shadow: -0.04em 0 0 #00ffff, 0.04em 0 0 #ff00ff; transform: translate(-0.01em, -0.01em); opacity: 0.9; }
+            50% { text-shadow: 0.06em 0 0 #ff00ff, -0.06em 0 0 #00ffff; transform: translate(0.03em, 0.03em); opacity: 0.8; }
+            75% { text-shadow: -0.05em 0 0 #00ffff, 0.05em 0 0 #ff00ff; transform: translate(-0.02em, -0.02em); opacity: 0.95; }
+            100% { text-shadow: 0 0 0 #ff00ff, 0 0 0 #00ffff; transform: translate(0, 0); opacity: 1; }
+        }
+
+        /* Textul "La Mulți Ani" */
+        #text-la-multi-ani {
+            color: #ffeb3b; 
+            text-shadow: 0 0 30px #ff9800, 0 0 60px #ffc107;
+            font-size: 0em; 
+            animation: finalScale 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; 
+        }
+        
+        /* Numele "ARI" */
+        #nume-ari {
+            display: block;
+            color: #00ffff; 
+            font-size: 0em; 
+            text-shadow: 0 0 20px #00ffff, 0 0 40px #00aaff;
+            animation: nameReveal 1.5s 2.5s forwards; 
+        }
+        
+        /* Animația de scalare finală - Foarte rapidă și cu overshoot */
+        @keyframes finalScale {
+            0% { font-size: 4em; transform: scale(0.1); opacity: 0; }
+            80% { font-size: 10em; transform: scale(1.1); opacity: 1; }
+            100% { font-size: 10em; transform: scale(1); opacity: 1; }
+        }
+
+        /* Animația de apariție a numelui */
+        @keyframes nameReveal {
+            0% { font-size: 0em; opacity: 0; }
+            100% { font-size: 8em; opacity: 1; }
+        }
+        
+    </style>
+</head>
+<body data-indiciu-trei="2">
+<audio id="sunet-surpriza" src="LM.mp3" preload="auto"></audio>
+
+    <div id="container">
+        <h1>[URGENȚĂ CRITICĂ] S I S T E M Î N C H I D E R E</h1>
+        
+        <div id="mesaj-virus">
+            Accesul la sistem a fost restricționat de virusul **CAT\_LORD\_COOL**!
+            <br>
+            <small style="color: grey;">Protocol de decriptare activat: 
+                Decodificare necesară: [NA==] - CAT-UNIT.01
+            </small>
+        </div>
+
+        <div id="text-stare">
+            Timp rămas până la distrugerea datelor:
+        </div>
+        <div id="timp-ramas">50</div>
+        
+        <div id="zona-hack">
+            <div id="text-cod">
+                INTRODU CODUL DE DECRIPTOGRAFIE (4 cifre): <span id="cod-hack">••••</span>
+            </div>
+            <input type="text" id="input-cod" maxlength="4" placeholder="••••">
+        </div>
+    </div>
+
+    <div id="reveal-container">
+        
+        <img id="cat-final-1" class="reveal-cat-image" src="cat1.jpg" alt="Pisică 1">
+        <img id="cat-final-2" class="reveal-cat-image" src="cat.6.jpg" alt="Pisică 2">
+        <img id="cat-final-3" class="reveal-cat-image" src="cat3.jpg" alt="Pisică 3">
+        <img id="cat-final-4" class="reveal-cat-image" src="cat.7.jpg" alt="Pisică 4">
+        <img id="cat-final-5" class="reveal-cat-image" src="cat5.jpg" alt="Pisică 5">
+
+        <div id="surpriza-finala">
+            <span class="glitch-text" id="final-message">CRITICAL ERROR...</span>
+        </div>
+    </div>
+
+    <script>
+        const inputCod = document.getElementById('input-cod');
+        const sunetSurpriza = document.getElementById('sunet-surpriza');
+        const revealContainer = document.getElementById('reveal-container');
+        const finalMessage = document.getElementById('final-message');
+        const timpRamasDisplay = document.getElementById('timp-ramas');
+        const body = document.body;
+        
+        const TIMP_INITIAL = 50; 
+        const COD_CORECT = '4721';
+        const GLITCH_DURATION = 2000; 
+
+        let timpCurent = TIMP_INITIAL;
+        let intervalId;
+
+        // INDICIU #4: Calculează ultima cifră (1)
+        const INDICIU_PATRU = (new Date().getMonth() % 10) + 1; // Decembrie (11) % 10 = 1. Așadar, 1.
+
+        function startCountdown() {
+            intervalId = setInterval(() => {
+                timpCurent--;
+                timpRamasDisplay.textContent = timpCurent;
+
+                // Schimbări vizuale dinamice
+                if (timpCurent <= 10) {
+                    // Culoare CRITICĂ, Bliț rapid
+                    timpRamasDisplay.style.color = 'var(--rosu-critic)';
+                    timpRamasDisplay.style.textShadow = '0 0 25px var(--rosu-critic)';
+                    body.classList.add('alert-bg');
+                } else if (timpCurent > 10 && timpCurent <= 20) {
+                    // Culoare de ALERTĂ, Bliț mai rar (schimbă viteza animației)
+                    timpRamasDisplay.style.color = 'var(--galben-alerta)';
+                    timpRamasDisplay.style.textShadow = '0 0 15px var(--galben-alerta)';
+                    body.classList.remove('alert-bg');
+                    document.styleSheets[0].insertRule('@keyframes alertFlash { from { background-color: #050505; } to { background-color: #330000; } }', 0);
+                } else {
+                    // Culoare normală (verde neon)
+                    timpRamasDisplay.style.color = 'var(--verde-neon)';
+                    timpRamasDisplay.style.textShadow = '0 0 20px var(--verde-neon)';
+                    body.classList.remove('alert-bg');
+                }
+
+                if (timpCurent <= 0) {
+                    clearInterval(intervalId);
+                    declanseazaSurpriza();
+                }
+            }, 1000); 
+        }
+
+        function declanseazaSurpriza() {
+            // Ascunde fereastra de hacking
+            document.getElementById('container').style.opacity = 0;
+            setTimeout(() => {
+                document.getElementById('container').style.display = 'none';
+                body.classList.remove('alert-bg');
+                body.style.backgroundColor = '#000000';
+            }, 500);
+            
+            // Afișează containerul de revelație
+            revealContainer.style.display = 'flex';
+            
+            // Pasul 1: Glitch-ul de 2 secunde
+            finalMessage.classList.add('glitch-text');
+
+            // --- SECVENȚA DE REVELAȚIE SINCRONIZATĂ ---
+            
+            // 0. Cat1 apare imediat
+            setTimeout(() => {
+                const cat1 = document.getElementById('cat-final-1');
+                cat1.style.opacity = 1;
+                cat1.style.transform = 'translate(-50%, -50%) scale(1.2)'; 
+                setTimeout(() => {
+                    cat1.style.opacity = 0;
+                }, 1500); 
+            }, 100); 
+
+            // 1. Oprirea Glitch-ului și Mesajul (După GLITCH_DURATION)
+            setTimeout(() => {
+                // Oprirea Glitch-ului
+                finalMessage.classList.remove('glitch-text');
+                
+                // Setare Numele și activare animații CSS
+                finalMessage.innerHTML = `<span id="text-la-multi-ani">LA MULȚI ANI!!</span><span id="nume-ari">ARI</span>`;
+                finalMessage.parentNode.classList.add('final-reveal');
+
+                // Sunetul și Pisicile 2 & 3 apar
+                sunetSurpriza.volume = 0.1; // Volum ajustat la 0.1
+                sunetSurpriza.play().catch(e => console.error("Redarea sunetului a eșuat:", e));
+
+                document.getElementById('cat-final-2').style.opacity = 1; 
+                document.getElementById('cat-final-3').style.opacity = 1; 
+
+                // Pisicile 2 & 3 se mișcă spre centru
+                document.getElementById('cat-final-2').style.transform = 'rotate(0deg) translate(0, 0)'; 
+                document.getElementById('cat-final-3').style.transform = 'rotate(0deg) translate(0, 0)'; 
+
+            }, GLITCH_DURATION); 
+
+            // 2. Cat4 & Cat5 apar târziu, după un salt muzical (2s după mesaj)
+            setTimeout(() => {
+                document.getElementById('cat-final-4').style.opacity = 1; 
+                document.getElementById('cat-final-5').style.opacity = 1; 
+                
+                // Pisicile 4 & 5 se mișcă spre centru
+                document.getElementById('cat-final-4').style.transform = 'rotate(0deg) translate(0, 0)';
+                document.getElementById('cat-final-5').style.transform = 'rotate(0deg) translate(0, 0)';
+
+            }, GLITCH_DURATION + 2000); 
+        }
+
+        inputCod.addEventListener('input', function() {
+            const codIntrodus = inputCod.value.trim();
+
+            if (codIntrodus.length === COD_CORECT.length) {
+                if (codIntrodus === COD_CORECT) {
+                    clearInterval(intervalId);
+                    // Feedback vizual SUCCESS înainte de revelație
+                    inputCod.style.borderColor = 'var(--galben-alerta)';
+                    inputCod.style.boxShadow = '0 0 15px var(--galben-alerta)';
+                    inputCod.style.color = 'var(--galben-alerta)';
+                    
+                    setTimeout(() => declanseazaSurpriza(), 500); 
+                } else {
+                    // Feedback vizual rapid pentru cod greșit
+                    inputCod.style.borderColor = 'var(--rosu-critic)';
+                    inputCod.style.boxShadow = '0 0 10px var(--rosu-critic)';
+                    inputCod.value = ''; 
+                    setTimeout(() => {
+                        inputCod.style.borderColor = 'var(--verde-neon)';
+                        inputCod.style.boxShadow = '0 0 10px var(--verde-neon), inset 0 0 5px var(--verde-neon)';
+                    }, 500);
+                }
+            }
+        });
+
+        // Start joc la încărcare
+        window.onload = function() {
+            inputCod.focus();
+            startCountdown();
+            // Puteți afișa Indiciul #4 în consolă, pentru un efect de "debug"
+            console.log(`[LOG] Căutați Indiciu #4: Rezultatul operației (new Date().getMonth() %% 10) + 1 este ${INDICIU_PATRU}`);
+        };
+    </script>
+
+</body>
+</html>
