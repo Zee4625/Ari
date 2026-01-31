@@ -11,6 +11,7 @@
     body {
       margin: 0;
       height: 100vh;
+      /* Gradient cald și festiv */
       background: radial-gradient(circle at center, #ff9a9e 0%, #ff6b81 100%);
       display: flex;
       flex-direction: column;
@@ -23,31 +24,38 @@
     }
 
     .container {
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(10px);
-      padding: 40px;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(12px);
+      padding: 50px 40px;
       border-radius: 30px;
       box-shadow: 0 20px 60px rgba(0,0,0,0.2);
       animation: zoomIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       max-width: 90%;
+      border: 1px solid rgba(255,255,255,0.4);
     }
 
-    .sticker {
-      width: 180px;
-      margin-bottom: 20px;
-      filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
+    /* Imaginea cat.7.jpg stilizată */
+    .cat-img-final {
+      width: 220px;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 50%; /* O facem rotundă aici pentru variație */
+      border: 6px solid white;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      margin-bottom: 25px;
+      animation: bounce 2s infinite;
     }
 
     h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       margin: 0 0 15px 0;
       text-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
 
     p {
-      font-size: 1.2rem;
-      opacity: 0.9;
+      font-size: 1.3rem;
+      font-weight: 500;
       margin-top: 0;
     }
 
@@ -55,19 +63,24 @@
       from { transform: scale(0); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
     }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <img src="https://media1.tenor.com/m/h9G3RzXk3IQAAAAC/milk-and-mocha-hug.gif" alt="Happy Hug" class="sticker">
+    <img src="cat.7.jpg" alt="Happy Cat" class="cat-img-final">
     
     <h1>Știam eu, Ari! ❤️</h1>
-    <p>Abia aștept să petrecem Valentine's Day împreună.</p>
+    <p>Ne vedem de Valentine's Day!</p>
   </div>
 
   <script>
-    // Launch Confetti on Load
+    // Confetti cannon
     window.addEventListener('load', () => {
       const duration = 3000;
       const animationEnd = Date.now() + duration;
@@ -84,7 +97,6 @@
 
         const particleCount = 50 * (timeLeft / duration);
         
-        // Confetti from left and right
         confetti(Object.assign({}, defaults, { particleCount, origin: { x: random(0.1, 0.3), y: Math.random() - 0.2 } }));
         confetti(Object.assign({}, defaults, { particleCount, origin: { x: random(0.7, 0.9), y: Math.random() - 0.2 } }));
       }, 250);
