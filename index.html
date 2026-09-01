@@ -1,244 +1,1252 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pentru Ari ❤️</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini-GamesHub - Multi-Game Collection</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --accent: #ec4899;
+            --text: #f8fafc;
+            --text-secondary: #94a3b8;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --anime: #f59e0b;
+            --auction: #10b981;
+        }
 
-  <style>
-    :root {
-      --primary: #ff4d6d;
-      --bg-dark: #0f0f1a;
-      --glass: rgba(255, 255, 255, 0.1);
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
 
-    body {
-      margin: 0;
-      height: 100vh;
-      background-color: var(--bg-dark);
-      /* Fundal modern */
-      background-image: 
-        radial-gradient(circle at 20% 30%, rgba(255, 77, 109, 0.2) 0%, transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(89, 13, 229, 0.2) 0%, transparent 40%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: 'Poppins', sans-serif;
-      overflow: hidden;
-      color: white;
-    }
+        body {
+            background: var(--bg-gradient);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
-    /* Particule inimioare */
-    .bg-hearts {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-    }
+        .container {
+            width: 100%;
+            max-width: 460px;
+            background-color: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 35px 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            max-height: 95vh;
+            overflow-y: auto;
+        }
 
-    .heart-bg {
-      position: absolute;
-      bottom: -20px;
-      color: rgba(255, 77, 109, 0.3);
-      animation: floatUp 15s linear infinite;
-      font-size: 20px;
-    }
+        .container::-webkit-scrollbar {
+            width: 4px;
+        }
+        .container::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
 
-    /* Stilul cardului de sticlă */
-    .card {
-      position: relative;
-      z-index: 10;
-      background: var(--glass);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 40px 30px;
-      border-radius: 25px;
-      text-align: center;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-      max-width: 400px;
-      width: 85%;
-      transition: transform 0.1s;
-    }
+        h1 {
+            font-size: 1.7rem;
+            margin-bottom: 8px;
+            background: linear-gradient(90deg, #818cf8, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    /* Imaginea cat.1.jpg stilizată */
-    .cat-img {
-      width: 180px;
-      height: 180px;
-      object-fit: cover; /* Asigură că poza nu se deformează */
-      border-radius: 20px;
-      border: 4px solid rgba(255, 255, 255, 0.8);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-      margin-bottom: 20px;
-      animation: floatImg 3s ease-in-out infinite;
-    }
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            font-size: 0.92rem;
+            line-height: 1.4;
+        }
 
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      margin: 10px 0 25px;
-      line-height: 1.2;
-      text-shadow: 0 4px 15px rgba(255, 77, 109, 0.6);
-    }
+        .screen {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
 
-    .buttons {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
-      min-height: 140px; /* Rezervă spațiu ca să nu sară elementele */
-    }
+        .screen.active {
+            display: block;
+        }
 
-    button {
-      font-family: 'Poppins', sans-serif;
-      border: none;
-      cursor: pointer;
-      border-radius: 50px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-    .yes-button {
-      background: linear-gradient(135deg, #ff4d6d 0%, #ff758c 100%);
-      color: white;
-      padding: 14px 50px;
-      font-size: 1.1rem;
-      box-shadow: 0 8px 20px rgba(255, 77, 109, 0.4);
-      /* Pentru animația de creștere */
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-    }
+        .btn {
+            background: linear-gradient(135deg, var(--primary), #4f46e5);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
 
-    .yes-button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 12px 30px rgba(255, 77, 109, 0.6);
-    }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+        }
 
-    .no-button {
-      background: rgba(255, 255, 255, 0.1);
-      color: #ccc;
-      padding: 10px 30px;
-      font-size: 0.9rem;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
+        .btn:active {
+            transform: scale(0.98);
+        }
 
-    .no-button:hover {
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-    }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            box-shadow: none;
+            color: var(--text-secondary);
+        }
 
-    /* Animații */
-    @keyframes floatUp {
-      0% { transform: translateY(0); opacity: 0; }
-      10% { opacity: 0.8; }
-      100% { transform: translateY(-100vh); opacity: 0; }
-    }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            box-shadow: none;
+        }
 
-    @keyframes floatImg {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
+        .btn-accent {
+            background: linear-gradient(135deg, #ec4899, #be185d);
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+        }
 
-    /* Clasa pentru tremurat cand apasa NU */
-    .shake {
-      animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
-    }
+        .btn-anime {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+        }
+        
+        .btn-auction {
+            background: linear-gradient(135deg, #10b981, #047857);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
 
-    @keyframes shake {
-      10%, 90% { transform: translate3d(-2px, 0, 0); }
-      20%, 80% { transform: translate3d(4px, 0, 0); }
-      30%, 50%, 70% { transform: translate3d(-8px, 0, 0); }
-      40%, 60% { transform: translate3d(8px, 0, 0); }
-    }
-  </style>
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            background-color: rgba(15, 23, 42, 0.6);
+            color: white;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            text-align: center;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        input[type="color"] {
+            -webkit-appearance: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            background: none;
+        }
+
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        input[type="color"]::-webkit-color-swatch {
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+        }
+
+        .player-input-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .players-container {
+            max-height: 250px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            padding-right: 5px;
+        }
+
+        .secret-board, .auction-board {
+            background-color: rgba(15, 23, 42, 0.8);
+            border: 2px dashed var(--accent);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 15px 0;
+            user-select: none;
+            transition: all 0.3s ease;
+        }
+
+        .auction-board {
+            border-color: var(--auction);
+        }
+
+        .word-display {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin: 12px 0;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            word-break: break-word;
+        }
+
+        .timer {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--danger);
+            margin-bottom: 10px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            background-color: rgba(99, 102, 241, 0.15);
+            color: #818cf8;
+            margin-bottom: 15px;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .instruction-box {
+            background: rgba(99, 102, 241, 0.08);
+            border-left: 3px solid var(--primary);
+            padding: 12px;
+            text-align: left;
+            font-size: 0.88rem;
+            margin-bottom: 20px;
+            border-radius: 0 8px 8px 0;
+            color: var(--text-secondary);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .option-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 12px 0;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .option-card.selected {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+        }
+
+        /* Chose the... Grid Choices */
+        .choices-board-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 15px 0;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .mystery-box {
+            background: rgba(15, 23, 42, 0.9);
+            border: 2px dashed var(--card-border);
+            border-radius: 12px;
+            padding: 25px 15px;
+            color: var(--text);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100px;
+        }
+
+        .mystery-box:hover:not(.revealed) {
+            border-color: var(--accent);
+            transform: scale(1.02);
+        }
+
+        .mystery-box.revealed {
+            cursor: default;
+            border-style: solid;
+            font-size: 0.9rem;
+            font-weight: normal;
+            padding: 15px;
+            animation: popIn 0.3s ease-out forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Auction Game Specific */
+        .bid-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+            max-height: 250px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .bid-btn {
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px solid;
+            border-radius: 12px;
+            padding: 12px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.1s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .bid-btn:active {
+            transform: scale(0.95);
+        }
+
+        .bid-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .bid-money {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+        
+        .inventory-list {
+            text-align: left;
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 1px solid var(--card-border);
+        }
+
+    </style>
 </head>
 <body>
 
-  <div class="bg-hearts" id="heartContainer"></div>
+    <div class="container">
+        <!-- Ecran 0: Meniul Principal -->
+        <div id="screen-menu" class="screen active">
+            <h1>Mini-Games Hub</h1>
+            <p>Alege modul în care vrei să te distrezi!</p>
+            <button class="btn" onclick="openImpostorSetup('classic')">🕵️‍♂️ Impostor Game</button>
+            <button class="btn btn-anime" onclick="openImpostorSetup('anime')">🗡️ Anime Impostor</button>
+            <button class="btn btn-accent" onclick="openChooseSetup()">🎲 Chose the...</button>
+            <button class="btn btn-auction" onclick="openAuctionSetup()">💰 What u get?</button>
+        </div>
 
-  <div class="card" id="mainCard">
-    <img src="cat.1.gif" alt="Pisica draguta" class="cat-img">
-    
-    <h1>
-      Ari, vrei să fii<br>
-      <span style="color: #ff4d6d; font-style: italic;">Valentina mea?</span> 🌹
-    </h1>
+        <!-- ================= IMPOSTOR GAME SCREENS ================= -->
+        <div id="screen-impostor-setup" class="screen">
+            <h1 id="impostor-setup-title">Impostor - Setări</h1>
+            <p>Câți jucători sunteți?</p>
+            
+            <label style="display:block; text-align:left; font-size:0.85rem; color:var(--text-secondary); margin-bottom:5px;">Număr Jucători (3 - 8):</label>
+            <div class="options-grid" id="player-count-grid">
+                <div class="option-card selected" onclick="setPlayerCount(3, 'imp')">3</div>
+                <div class="option-card" onclick="setPlayerCount(4, 'imp')">4</div>
+                <div class="option-card" onclick="setPlayerCount(5, 'imp')">5</div>
+                <div class="option-card" onclick="setPlayerCount(6, 'imp')">6</div>
+                <div class="option-card" onclick="setPlayerCount(7, 'imp')">7</div>
+                <div class="option-card" onclick="setPlayerCount(8, 'imp')">8</div>
+            </div>
 
-    <div class="buttons">
-      <button class="yes-button" id="yesBtn" onclick="handleYesClick()">DA, Vreau! ❤️</button>
-      <button class="no-button" id="noBtn" onclick="handleNoClick()">Nu...</button>
+            <div id="impostor-difficulty-section">
+                <label style="display:block; text-align:left; font-size:0.85rem; color:var(--text-secondary); margin-bottom:5px;">Dificultate Cuvinte:</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+                    <div class="option-card selected" id="diff-easy" onclick="setImpostorDiff('easy')">Easy (Opuse)</div>
+                    <div class="option-card" id="diff-hard" onclick="setImpostorDiff('hard')">Hard (Random)</div>
+                </div>
+            </div>
+
+            <div class="players-container" id="impostor-inputs-box"></div>
+            <button class="btn" onclick="startImpostorGame()">Generează Runda</button>
+            <button class="btn btn-secondary" onclick="backToMenu()">Înapoi</button>
+        </div>
+
+        <div id="screen-impostor-pass" class="screen">
+            <h1>Trecerea Telefonului</h1>
+            <div class="badge" id="impostor-turn-badge">Jucător 1</div>
+            <p>Dă telefonul lui <span id="impostor-pass-name" style="color: var(--text); font-weight: bold;">Jucător 1</span>.</p>
+            <button class="btn" onclick="prepareImpostorReveal()">Sunt pregătit</button>
+        </div>
+
+        <div id="screen-impostor-reveal" class="screen">
+            <h1 id="impostor-reveal-title">Jucător 1</h1>
+            <p>Ține apăsat pe panou pentru a vedea cuvântul (5 secunde):</p>
+            <div class="secret-board" onmousedown="startImpostorTimerSecure()" ontouchstart="startImpostorTimerSecure()">
+                <div class="timer" id="impostor-timer-display">Apasă aici (5s)</div>
+                <div class="word-display" id="impostor-word-box">Ține apăsat</div>
+            </div>
+            <button class="btn btn-secondary" id="impostor-next-btn" style="display:none;" onclick="nextImpostorPlayerTurn()">Următorul Jucător</button>
+        </div>
+
+        <div id="screen-impostor-discussion" class="screen">
+            <h1>Runda de Discuție!</h1>
+            <div style="background-color: rgba(15, 23, 42, 0.6); border-radius: 16px; padding: 22px; border: 1px solid var(--card-border); margin: 20px 0;">
+                <div class="timer" id="impostor-disc-timer" style="font-size: 2.4rem; color: var(--success);">03:00</div>
+                <p style="margin-bottom: 0; font-size: 0.82rem;">Timp rămas pentru dezbatere</p>
+            </div>
+            <button class="btn" onclick="revealImpostorFinal()">Vezi Cine a Fost</button>
+            <button class="btn btn-secondary" onclick="openImpostorSetup(impType)">Rundă Nouă</button>
+        </div>
+
+        <div id="screen-impostor-result" class="screen">
+            <h1>Sfârșitul Rundei!</h1>
+            <p>Impostorul ascuns a fost:</p>
+            <div class="word-display" id="impostor-reveal-name" style="color: var(--danger);">Nume</div>
+            <p id="impostor-words-info" style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-top: 15px;"></p>
+            <button class="btn" onclick="openImpostorSetup(impType)">Joacă din nou</button>
+            <button class="btn btn-secondary" onclick="backToMenu()">Meniu Principal</button>
+        </div>
+
+        <!-- ================= CHOOSE THE... GAME SCREENS ================= -->
+        <div id="screen-choose-setup" class="screen">
+            <h1>Chose the... - Setări</h1>
+            
+            <label style="display:block; text-align:left; font-size:0.85rem; color:var(--text-secondary); margin-bottom:5px;">Număr Jucători (3 - 8):</label>
+            <div class="options-grid" id="choose-player-count-grid">
+                <div class="option-card selected" onclick="setPlayerCount(3, 'choose')">3</div>
+                <div class="option-card" onclick="setPlayerCount(4, 'choose')">4</div>
+                <div class="option-card" onclick="setPlayerCount(5, 'choose')">5</div>
+                <div class="option-card" onclick="setPlayerCount(6, 'choose')">6</div>
+                <div class="option-card" onclick="setPlayerCount(7, 'choose')">7</div>
+                <div class="option-card" onclick="setPlayerCount(8, 'choose')">8</div>
+            </div>
+
+            <label style="display:block; text-align:left; font-size:0.85rem; color:var(--text-secondary); margin-bottom:5px;">Mod de Joc:</label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+                <div class="option-card selected" id="choose-diff-easy" onclick="setChooseDiff('easy')">Easy (3 Safe / 4)</div>
+                <div class="option-card" id="choose-diff-hard" onclick="setChooseDiff('hard')">Hard (1 Safe / 8)</div>
+            </div>
+
+            <button class="btn btn-accent" onclick="startChooseGame()">Începe Jocul</button>
+            <button class="btn btn-secondary" onclick="backToMenu()">Înapoi</button>
+        </div>
+
+        <div id="screen-choose-board" class="screen">
+            <h1>Alegeți Cutiile!</h1>
+            <div class="choices-board-grid" id="choices-board-container"></div>
+            <button class="btn btn-danger" onclick="showChooseFinalSummary()">⏹️ Oprește Runda</button>
+        </div>
+
+        <div id="screen-choose-final" class="screen">
+            <h1>Runda S-a Încheiat!</h1>
+            <div class="choices-board-grid" id="choose-final-summary" style="display: flex; flex-direction: column; max-height: 250px;"></div>
+            <button class="btn btn-accent" onclick="openChooseSetup()">Joacă din nou</button>
+            <button class="btn btn-secondary" onclick="backToMenu()">Meniu Principal</button>
+        </div>
+
+        <!-- ================= WHAT U GET? (AUCTION) SCREENS ================= -->
+        <div id="screen-auction-setup" class="screen">
+            <h1 style="background: linear-gradient(90deg, #10b981, #047857); -webkit-background-clip: text;">What u get?</h1>
+            <p>Setați jucătorii, alegeți culorile și numărul de runde!</p>
+            
+            <label style="display:block; text-align:left; font-size:0.85rem; color:var(--text-secondary); margin-bottom:5px;">Număr Jucători (3 - 9):</label>
+            <div class="options-grid" id="auc-player-grid">
+                <!-- Generat dinamic 3-9 -->
+            </div>
+
+            <label style="display:block; text-align:left; font-size:0.85rem; color:var(--text-secondary); margin-bottom:5px;">Număr Runde (3 - 9):</label>
+            <div class="options-grid" id="auc-round-grid">
+                <!-- Generat dinamic 3-9 -->
+            </div>
+
+            <div class="players-container" id="auction-inputs-box"></div>
+
+            <button class="btn btn-auction" onclick="initAuctionGame()">Pornește Licitatia</button>
+            <button class="btn btn-secondary" onclick="backToMenu()">Înapoi</button>
+        </div>
+
+        <div id="screen-auction-scenario" class="screen">
+            <h1>Scenariul Rundei</h1>
+            <div class="secret-board" style="border-color: var(--auction);">
+                <h2 id="auc-scenario-title" style="color: var(--auction); font-size: 1.8rem; margin-bottom: 10px;">Scenariu</h2>
+                <p>Ați primit fiecare câte <b>20$</b>.</p>
+                <p style="font-size: 0.9rem;">Cumpărați obiectele la licitație pentru a supraviețui acestui scenariu. La final, votați cine are cel mai bun inventar!</p>
+            </div>
+            <button class="btn btn-auction" onclick="startAuctionRound()">Începe Runda 1</button>
+        </div>
+
+        <div id="screen-auction-board" class="screen">
+            <div class="badge" style="background-color: rgba(16, 185, 129, 0.15); color: #34d399; border-color: rgba(16,185,129,0.3);" id="auc-round-badge">Runda 1/5</div>
+            
+            <div class="auction-board">
+                <div style="font-size: 0.9rem; color: var(--text-secondary);">Obiect la licitație:</div>
+                <div class="word-display" id="auc-item-name" style="color: var(--text); font-size: 1.8rem;">Obiect Random</div>
+                
+                <div style="margin: 20px 0; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 12px;">
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">Ofertă Curentă:</div>
+                    <div id="auc-current-bid" style="font-size: 2.2rem; font-weight: bold; color: var(--auction);">$0</div>
+                    <div id="auc-highest-bidder" style="font-size: 1rem; color: #fbbf24; margin-top: 5px; min-height: 20px;">Niciun pariu</div>
+                </div>
+
+                <div class="timer" id="auc-timer">30s</div>
+            </div>
+
+            <p style="font-size: 0.8rem; margin-bottom: 5px;">Apasă pe butonul tău pentru a paria <b>+1$</b></p>
+            <div class="bid-grid" id="auc-bid-grid">
+                <!-- Butoane de bid generate dinamic -->
+            </div>
+            
+            <button class="btn btn-secondary" id="auc-next-round-btn" style="display:none; margin-top: 20px;" onclick="nextAuctionPhase()">Următoarea Rundă</button>
+        </div>
+
+        <div id="screen-auction-vote" class="screen">
+            <h1>Faza de Votare</h1>
+            <p id="auc-vote-scenario" style="color: var(--auction); font-weight: bold; margin-bottom: 15px;"></p>
+            <p>Analizați inventarele și votați! Cine s-ar descurca cel mai bine? (Fiecare jucător dă telefonul mai departe să voteze o dată).</p>
+            
+            <div class="players-container" id="auc-inventories-list"></div>
+            
+            <div style="background: rgba(15, 23, 42, 0.8); padding: 15px; border-radius: 12px; margin-top: 15px;">
+                <p style="margin-bottom: 10px; font-weight: bold;">Cine votează acum: <span id="auc-voting-player" style="color: var(--accent);">Jucător 1</span></p>
+                <div class="options-grid" id="auc-vote-buttons" style="grid-template-columns: repeat(2, 1fr);">
+                    <!-- Butoane de vot -->
+                </div>
+            </div>
+        </div>
+
+        <div id="screen-auction-results" class="screen">
+            <h1>Rezultate Finale!</h1>
+            <div class="secret-board" style="border-color: #fbbf24;">
+                <h2 style="color: #fbbf24; margin-bottom: 10px;">Câștigătorul este:</h2>
+                <div id="auc-winner-name" style="font-size: 2rem; font-weight: bold; margin-bottom: 10px;">Nume</div>
+                <div id="auc-winner-inventory" style="font-size: 0.9rem; color: var(--text-secondary);"></div>
+            </div>
+            <button class="btn btn-auction" onclick="openAuctionSetup()">Joacă din nou</button>
+            <button class="btn btn-secondary" onclick="backToMenu()">Meniu Principal</button>
+        </div>
+
     </div>
-  </div>
 
-  <script>
-    const messages = [
-      "Ești sigură, Ari?",
-      "Mai gândește-te...",
-      "Chiar vrei să spui nu?",
-      "Uite ce drăguț e pisoiul!",
-      "Ari, te rog...",
-      "Ok, gata cu gluma!",
-    ];
+    <script>
+        // ================= MASTER DATA ARRAYS =================
+        const masterImpostorEasyPairs = [
+            ["Lumina", "Întuneric"], ["Cald", "Rece"], ["Rapid", "Lent"],
+            ["Bogat", "Sărac"], ["Cer", "Iad"], ["Înger", "Demon"],
+            ["Foc", "Gheață"], ["Gigant", "Pitic"], ["Zombi", "Vampir"], 
+            ["Curaj", "Frică"], ["Bonnie Blue", "Jony Sins"], ["Tolea", "Felix"],
+            ["Nigger", "White"], ["Femboy", "Tomboy"], ["Porn Hub", "Onlyfans"],
+            ["Picior", "Brat"], ["Soare", "Lună"], ["Adevăr", "Minciună"]
+        ];
 
-    let messageIndex = 0;
-    let clickCount = 0;
-    // Setăm o limită maximă de creștere (de aprox 2.5 ori)
-    const MAX_CLICKS = 5; 
+        const masterImpostorHardPool = [
+            "Ochelari", "Ciocolată", "Telefon", "Banane", "Tastatură",
+            "Scaun", "Pix", "Geantă", "Pernă", "Caiet", "Pantof", 
+            "Explozibil", "Dunăre", "Lapte", "Epstine", "Charlie Kirk", "Donald Trump", 
+            "Parbriz", "Sticlă", "Cană", "Fereastră", "Șosetă", "Tablou"
+        ];
 
-    function handleNoClick() {
-      const noButton = document.getElementById('noBtn');
-      const yesButton = document.getElementById('yesBtn');
-      const card = document.getElementById('mainCard');
+        const masterImpostorAnimePairs = [
+            ["Naruto", "Sasuke"], ["Rasengan", "Chidori"], ["Sharingan", "Byakugan"],
+            ["Hokage", "Akatsuki"], ["Gojo", "Sukuna"], ["Itadori", "Megumi"],
+            ["Domeniu Extins", "Energie Blestemată"], ["Goku", "Vegeta"], 
+            ["Kamehameha", "Final Flash"], ["Tanjiro", "Muzan"], 
+            ["Katana", "Kunai"], ["Saiyan", "Demon"], ["Nezuko", "Sakura"]
+        ];
 
-      // 1. Schimbă textul butonului NU
-      noButton.textContent = messages[messageIndex];
-      messageIndex = (messageIndex + 1) % messages.length;
+        const masterSafePool = [
+            "O sală de jocuri gratis cu mâncare inclusă.",
+            "O vacanță VIP all-inclusive pe o insulă privată.",
+            "Un card cu fonduri nelimitate pentru haine și gadgeturi.",
+            "Acces pe viață la toate platformele de streaming.",
+            "O cutie magică care generează pizza caldă oricând."
+        ];
 
-      // 2. Animație de tremurat (shake) la card
-      card.classList.add('shake');
-      setTimeout(() => card.classList.remove('shake'), 400);
+        const masterUnsafePool = [
+            "O cameră cu un urs grizzly somnoros.",
+            "Un labirint întunecat cu piese de LEGO pe jos.",
+            "O săptămână în haine ude și reci.",
+            "Un roi de viespi care te urmărește o zi întreagă.",
+            "O supă de șosete vechi și ardei iute."
+        ];
 
-      // 3. Crește butonul DA, dar cu limită!
-      if (clickCount < MAX_CLICKS) {
-        clickCount++;
-        // Creștem padding-ul și fontul cu un factor controlat
-        const currentFontSize = parseFloat(window.getComputedStyle(yesButton).fontSize);
-        const newFontSize = currentFontSize * 1.2; // Crește cu 20%
+        // Auction Gamemode Data
+const masterAuctionScenarios = [
+    "Apocalipsa Zombie",
+    "Supraviețuire pe o Insulă Pustie",
+    "Invazie Extraterestră",
+    "Rătăcit în Epoca de Piatră",
+    "Evadare dintr-o Închisoare de Maximă Securitate",
+    "Căderea Sistemului Global — toată electricitatea și comunicațiile dispar",
+    "Robot Uprising — roboții devin ostili și preiau infrastructura orașelor",
+
+    "Lumea dispare complet de pe Pământ, iar tu rămâi ultimul om de pe planetă",
+    "Ești urmărit de o organizație goon secretă care te consideră singura amenințare pentru omenire",
+    "Un meteorit in forma de dick lovește Pământul, iar tu trebuie să supraviețuiești primelor 30 de zile după impact",
+    "Un virus necunoscut transformă oamenii în creaturi imortale si agresive, iar orașele intră rapid în carantină",
+    "Temperatura Pământului scade brusc -90, iar planeta intră într-o nouă eră glaciară",
+    "Te trezești într-un oraș complet gol și descoperi că toți oamenii au dispărut în aceeași noapte",
+    "Ești blocat într-un oraș izolat după ce toate drumurile și comunicațiile către exterior sunt distruse",
+
+    "Goku te urmărește pentru că, dintr-o greșeală, lai umplut cu lapte pe fiul lui",
+    "Ai furat accidental mustața lui Nigga Boss și acum ești căutat în mai multe universuri pentru a fi babardit",
+    "Ești transportat într-un univers paralel în care o versiune a ta cu +500 IQ si +300 aura încearcă să te elimine pentru a-ți ocupa locul",
+    "Un experiment științific eșuat face ca timpul să se repete la fiecare 24 de ore, iar doar ceilalti oameni îsi amintești zilele anterioare tu nu",
+    "Descoperi că Pământul este doar o simulare AI a lui Daddy Jony Sins, iar sistemul începe să te șteargă",
+    "Un portal către o altă dimensiune apare în oraș, iar creaturi necunoscute cu diku cat 2km încep să treacă prin el",
+    "O civilizație extraterestră îți oferă 7 zile pentru a demonstra că omenirea merită să supraviețuiască",
+
+    "Ești în Centrul Vechi și, după o neînțelegere, niggeri din zonă încep să te urmărească pentru a te babardi",
+    "Ești acuzat pe nedrept de o crimă pe care nu ai comis-o și trebuie să găsești dovezi înainte să fii prins",
+    "Un blackout național lasă întreaga țară fără electricitate, internet și comunicații, iar tu trebuie să ajungi acasă",
+    "Avionul în care te afli se prăbușește într-o zonă sălbatică necunoscută și trebuie să supraviețuiești până găsești ajutor",
+    "Un război global începe brusc, iar tu trebuie să ajungi într-o zonă sigură înainte ca frontul să ajungă la tine"
+];
+
+
+
+const masterAuctionItems = [
+    // 🛡️ SURVIVAL / UTILE
+    "Mașină de teren blindată",
+    "Trusă de prim ajutor",
+    "Cort militar",
+    "Baterie externă solară",
+    "Câine de pază antrenat",
+    "Provizii de hrană (1 lună)",
+    "Lanternă care nu se descarcă",
+    "Costum de camuflaj",
+    "Walkie-talkie",
+    "O sticlă infinită de apă",
+    "Manual de supraviețuire",
+    "Bandă adezivă (Duct tape)",
+    "Rucsac tactic",
+    "Busolă care indică mereu nordul",
+    "Filtru de apă portabil",
+    "Frânghie de 30 metri",
+    "Brichetă rezistentă la apă",
+    "Binoclu",
+    "Detector de metale",
+    "Multitool profesional",
+
+    // ⚔️ COMBAT / ECHIPAMENT
+    "Sabie Laser",
+    "Machetă ascuțită",
+    "Aruncător de flăcări",
+    "Jetpack",
+    "Scut foarte rezistent",
+    "Armură antiglonț",
+    "Mănuși care îți dublează forța",
+    "Cizme care îți cresc viteza cu 25%",
+    "Ochelari cu vedere nocturnă",
+    "Costum de Iron Man (baterie 10%)",
+    "Dronă de recunoaștere",
+    "Robot bodyguard cu baterie limitată",
+
+    // 🌀 ITEME SPECIALE / SUPRANATURALE
+    "Portal Gun (Rick and Morty) — poate deschide portaluri către locații cunoscute, dar are nevoie de reîncărcare între utilizări.",
+    
+    "Return by Death — dacă utilizatorul moare, revine la un punct anterior din timp. Doar utilizatorul își păstrează amintirile, iar abilitatea nu poate fi controlată complet.",
+    
+    "Infinity — încetinește obiectele care se apropie de utilizator până aproape de oprire. Necesită concentrare și nu poate fi menținută permanent.",
+    
+    "Six Eyes — oferă o percepție extrem de precisă și permite observarea fluxului de energie, făcând utilizatorul să își regenereze energiea și alte abilitați 3x faster și mult mai eficient în folosirea abilităților.",
+    
+    "300 IQ — inteligență extrem de ridicată; utilizatorul poate analiza rapid situații complexe, dar nu îi oferă cunoștințe pe care nu le are deja + Brain damage dacă nu dormi o noapte!!!.",
+    
+    "Teleportare scurtă — utilizatorul se poate teleporta până la 20 de metri, cu un cooldown de câteva secunde.",
+    
+    "Regenerare rapidă — rănile se vindecă mult mai repede decât în mod normal 20x faster, dar nu poate regenera membre pierdute.",
+    
+    "Telekinezie slabă — poate ridica și muta obiecte de până la aproximativ 15 kg, one use pentru obiecte de peste 500 kg.",
+    
+    "Ochelari cu vedere prin pereți — funcționează doar pe o rază scurtă 10-20 m și nu pot vedea prin metale groase, o dată sparti cauzeaza o gaura neagră.",
+    
+    "Medalionul Pericolului — te avertizează cu câteva secunde înainte de un pericol iminent",
+    
+    "Inelul Invizibilității — te face invizibil timp de 2 minute, după care trebuie să se reîncarce 3 ore.",
+    
+    "Piatra Norocului — crește ușor șansa ca lucrurile să se întâmple în favoarea ta.",
+    
+    "Save Point — poți marca un singur moment și reveni la el o dată.",
+    
+    "Time Stop — oprește timpul pentru 10 secunde. Poate fi folosit o singură dată la 3 ore.",
+    
+    "Portal Gun defect — deschide portaluri, dar uneori destinația este aleatorie.",
+
+    // 🧠 ITEME INTELIGENTE / UTILE DAR NU OP
+    "Telefon cu baterie infinită, dar fără internet",
+    "Laptop foarte performant cu bateria de 20%",
+    "Harta care arată toate resursele naturale din apropiere",
+    "Ceas care îți arată exact ora",
+    "Radio cu energie solară",
+    "Geacă care își reglează automat temperatura",
+    "Mâncare liofilizată pentru 6 luni",
+    "Cască ce filtrează sunetele foarte puternice",
+    "Umbrelă care nu se poate rupe",
+    "Frigider portabil care nu are nevoie de curent",
+
+    // 🤡 ITEME COMPLET USELESS
+    "O bucată de cauciuc",
+    "O lopată de plastic",
+    "Un șosetă fără pereche",
+    "O lingură de lemn",
+    "O piatră foarte normală",
+    "Un cartof",
+    "Un con de brad",
+    "Un cablu USB care nu se potrivește cu nimic",
+    "Un încărcător fără mufă",
+    "O telecomandă fără baterii",
+    "Un pix care scrie doar dacă îl agiți de 17 ori",
+    "Un borcan gol",
+    "O cutie de carton",
+    "O furculiță îndoită",
+    "Un mouse fără baterii",
+    "Un CD gol",
+    "O cheie pentru o ușă necunoscută",
+    "Un manual de instrucțiuni pentru ceva ce nu există",
+    "O lumânare foarte scurtă",
+    "O piatră pe care scrie «NU ESTE MAGICĂ»",
+    "Un singur șiret",
+    "O cană pe care scrie «World's Best Survivor»",
+    "Un puzzle căruia îi lipsește o piesă",
+    "O monedă de 1 ban",
+    "Un castravete",
+    "O minge de ping-pong",
+    "Un fluier care nu scoate niciun sunet",
+    "O cutie cu aer",
+    "Un băț",
+
+    // 💀 ITEME MEME / CIUDATE
+    "Butonul Roșu — nimeni nu știe ce face până nu îl apeși.",
+    "Ou Misterios — nimeni nu știe ce va ieși din el.",
+    "Piatră Legendară — arată complet normal și nimeni nu știe dacă are vreo putere.",
+    "Banana Nemuritoare — nu poate fi distrusă.",
+    "Telecomanda Universală — controlează orice dispozitiv, mai puțin televizorul.",
+    "Coroana Regelui — te face rege, dar nu ai nicio țară.",
+    "Excalibur — o sabie blocată într-o piatră pe care nimeni nu o poate scoate.",
+    "Infinity Gauntlet — arată impresionant, dar nu are nicio piatră.",
+    "Ser de Super-Soldat — îți crește forța cu aproximativ 1%.",
+    "Costum de invizibilitate — te face invizibil doar pentru tine.",
+    "Mașină a timpului — merge doar 3 secunde în trecut.",
+    "Detector de comori — face bip când nu există nicio comoară.",
+    "Buton de Spawn — când îl apeși apare un scaun.",
+    "Un sandviș legendar — este doar un sandviș.",
+];
+
+
+        const defaultColors = ['#ef4444', '#3b82f6', '#22c55e', '#eab308', '#a855f7', '#ec4899', '#f97316', '#06b6d4', '#64748b'];
+
+        // ================= WORKING ARRAYS =================
+        let availEasyPairs = [...masterImpostorEasyPairs];
+        let availHardPool = [...masterImpostorHardPool];
+        let availAnimePairs = [...masterImpostorAnimePairs];
+        let availSafePool = [...masterSafePool];
+        let availUnsafePool = [...masterUnsafePool];
+        let availAuctionScenarios = [...masterAuctionScenarios];
+        let availAuctionItems = [...masterAuctionItems];
+
+        // ================= GLOBAL STATES =================
+        let currentApp = 'menu';
         
-        yesButton.style.fontSize = `${newFontSize}px`;
-        // Creștem puțin padding-ul ca să arate bine
-        yesButton.style.padding = `${14 + (clickCount * 4)}px ${50 + (clickCount * 10)}px`;
-      } 
-      
-      // 4. Dacă apasă de prea multe ori, ascundem butonul NU de tot
-      if (clickCount >= MAX_CLICKS) {
-        noButton.style.display = "none";
-        // Opțional: schimbăm textul la DA
-        yesButton.textContent = "Acum ai doar o opțiune: DA! ❤️";
-      }
-    }
+        // Impostor
+        let impType = 'classic';
+        let impPlayerCount = 3;
+        let impDiff = 'easy';
+        let impPlayerNames = [];
+        let impAssignedRoles = [];
+        let impCurrentTurn = 0;
+        let impTimerInterval = null;
+        let impDiscInterval = null;
+        let impHasViewed = false;
 
-    function handleYesClick() {
-      window.location.href = "yes_page.html";
-    }
+        // Choose
+        let choosePlayerCount = 3;
+        let chooseDiff = 'easy'; 
+        let openedBoxesData = []; 
 
-    // Generator de inimi pe fundal
-    function createHeart() {
-      const heart = document.createElement('div');
-      heart.classList.add('heart-bg');
-      heart.innerHTML = '❤';
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.animationDuration = Math.random() * 5 + 8 + 's'; 
-      heart.style.fontSize = Math.random() * 20 + 10 + 'px';
-      document.getElementById('heartContainer').appendChild(heart);
-      setTimeout(() => heart.remove(), 13000);
-    }
-    setInterval(createHeart, 500);
-  </script>
+        // Auction (What u get?)
+        let aucPlayerCount = 3;
+        let aucRoundCount = 3;
+        let aucPlayers = [];
+        let aucCurrentRound = 0;
+        let aucScenario = "";
+        let aucCurrentItem = "";
+        let aucCurrentBid = 0;
+        let aucHighestBidderIdx = -1;
+        let aucTimer = 30;
+        let aucInterval = null;
+        let aucVotingPlayerIdx = 0;
 
+        function switchScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function backToMenu() {
+            clearIntervals();
+            currentApp = 'menu';
+            switchScreen('screen-menu');
+        }
+
+        function clearIntervals() {
+            if (impTimerInterval) clearInterval(impTimerInterval);
+            if (impDiscInterval) clearInterval(impDiscInterval);
+            if (aucInterval) clearInterval(aucInterval);
+        }
+
+        function pullRandomPair(array, masterArray) {
+            if (array.length === 0) array.push(...masterArray);
+            const idx = Math.floor(Math.random() * array.length);
+            return array.splice(idx, 1)[0];
+        }
+
+        function pullRandomItems(array, masterArray, count) {
+            let result = [];
+            for (let i = 0; i < count; i++) {
+                if (array.length === 0) array.push(...masterArray);
+                const idx = Math.floor(Math.random() * array.length);
+                result.push(array.splice(idx, 1)[0]);
+            }
+            return result;
+        }
+
+        function generateOptionsGrid(min, max, currentVal, targetGridId, clickFuncStr) {
+            const grid = document.getElementById(targetGridId);
+            grid.innerHTML = '';
+            for(let i = min; i <= max; i++) {
+                const isSelected = i === currentVal ? 'selected' : '';
+                grid.innerHTML += `<div class="option-card ${isSelected}" onclick="${clickFuncStr}(${i})">${i}</div>`;
+            }
+        }
+
+        function setPlayerCount(count, game) {
+            if (game === 'imp') {
+                impPlayerCount = count;
+                generateOptionsGrid(3, 8, impPlayerCount, 'player-count-grid', "setPlayerCountWrapperImp");
+                renderImpostorInputs();
+            } else if (game === 'choose') {
+                choosePlayerCount = count;
+                generateOptionsGrid(3, 8, choosePlayerCount, 'choose-player-count-grid', "setPlayerCountWrapperChoose");
+            } else if (game === 'auc') {
+                aucPlayerCount = count;
+                generateOptionsGrid(3, 9, aucPlayerCount, 'auc-player-grid', "setPlayerCountWrapperAuc");
+                renderAuctionInputs();
+            }
+        }
+        
+        // Wrappers for HTML string interpolation
+        function setPlayerCountWrapperImp(val) { setPlayerCount(val, 'imp'); }
+        function setPlayerCountWrapperChoose(val) { setPlayerCount(val, 'choose'); }
+        function setPlayerCountWrapperAuc(val) { setPlayerCount(val, 'auc'); }
+
+        // ================= IMPOSTOR GAME LOGIC =================
+        function openImpostorSetup(type) {
+            currentApp = 'impostor';
+            impType = type;
+            document.getElementById('impostor-setup-title').innerText = type === 'anime' ? 'Anime Impostor' : 'Impostor - Setări';
+            document.getElementById('impostor-difficulty-section').style.display = type === 'anime' ? 'none' : 'block';
+            setPlayerCount(3, 'imp');
+            switchScreen('screen-impostor-setup');
+        }
+
+        function setImpostorDiff(diff) {
+            impDiff = diff;
+            document.getElementById('diff-easy').classList.toggle('selected', diff === 'easy');
+            document.getElementById('diff-hard').classList.toggle('selected', diff === 'hard');
+        }
+
+        function renderImpostorInputs() {
+            const container = document.getElementById('impostor-inputs-box');
+            container.innerHTML = '';
+            for (let i = 0; i < impPlayerCount; i++) {
+                container.innerHTML += `<input type="text" id="imp-p-${i}" placeholder="Jucător ${i + 1}">`;
+            }
+        }
+
+        function startImpostorGame() {
+            impPlayerNames = [];
+            for (let i = 0; i < impPlayerCount; i++) {
+                const val = document.getElementById(`imp-p-${i}`).value.trim();
+                impPlayerNames.push(val || `Jucător ${i + 1}`);
+            }
+
+            let normalWord = "", impostorWord = "";
+            if (impType === 'anime') {
+                const randPair = pullRandomPair(availAnimePairs, masterImpostorAnimePairs);
+                normalWord = randPair[0]; impostorWord = randPair[1];
+                if(Math.random() < 0.5) [normalWord, impostorWord] = [impostorWord, normalWord];
+            } else {
+                if (impDiff === 'easy') {
+                    const randPair = pullRandomPair(availEasyPairs, masterImpostorEasyPairs);
+                    normalWord = randPair[0]; impostorWord = randPair[1];
+                    if(Math.random() < 0.5) [normalWord, impostorWord] = [impostorWord, normalWord];
+                } else {
+                    const randomItems = pullRandomItems(availHardPool, masterImpostorHardPool, 2);
+                    normalWord = randomItems[0]; impostorWord = randomItems[1];
+                }
+            }
+
+            const impostorIndex = Math.floor(Math.random() * impPlayerCount);
+            impAssignedRoles = impPlayerNames.map((name, i) => ({
+                name,
+                word: i === impostorIndex ? impostorWord : normalWord,
+                isImpostor: i === impostorIndex
+            }));
+
+            impCurrentTurn = 0;
+            showImpostorPassScreen();
+        }
+
+        function showImpostorPassScreen() {
+            if (impCurrentTurn >= impPlayerCount) return startImpostorDiscussionTimer();
+            document.getElementById('impostor-turn-badge').innerText = `Rândul: ${impCurrentTurn + 1} / ${impPlayerCount}`;
+            document.getElementById('impostor-pass-name').innerText = impAssignedRoles[impCurrentTurn].name;
+            switchScreen('screen-impostor-pass');
+        }
+
+        function prepareImpostorReveal() {
+            document.getElementById('impostor-reveal-title').innerText = impAssignedRoles[impCurrentTurn].name;
+            document.getElementById('impostor-word-box').innerText = "??? (Ține apăsat)";
+            document.getElementById('impostor-timer-display').innerText = "Apasă (5s)";
+            document.getElementById('impostor-next-btn').style.display = 'none';
+            impHasViewed = false;
+            switchScreen('screen-impostor-reveal');
+        }
+
+        function startImpostorTimerSecure() {
+            if (impHasViewed) return;
+            impHasViewed = true;
+            document.getElementById('impostor-word-box').innerText = impAssignedRoles[impCurrentTurn].word;
+            let timeLeft = 5;
+            document.getElementById('impostor-timer-display').innerText = `${timeLeft}s`;
+            
+            impTimerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('impostor-timer-display').innerText = `${timeLeft}s`;
+                if (timeLeft <= 0) {
+                    clearInterval(impTimerInterval);
+                    document.getElementById('impostor-word-box').innerText = "Timp expirat!";
+                    document.getElementById('impostor-timer-display').innerText = "Gata";
+                    document.getElementById('impostor-next-btn').style.display = 'block';
+                }
+            }, 1000);
+        }
+
+        function nextImpostorPlayerTurn() {
+            clearInterval(impTimerInterval);
+            impCurrentTurn++;
+            showImpostorPassScreen();
+        }
+
+        function startImpostorDiscussionTimer() {
+            switchScreen('screen-impostor-discussion');
+            let totalSeconds = 180; 
+            impDiscInterval = setInterval(() => {
+                let fm = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+                let fs = String(totalSeconds % 60).padStart(2, '0');
+                document.getElementById('impostor-disc-timer').innerText = `${fm}:${fs}`;
+                if (totalSeconds-- <= 0) {
+                    clearInterval(impDiscInterval);
+                    document.getElementById('impostor-disc-timer').innerText = "Timpul a expirat!";
+                }
+            }, 1000);
+        }
+
+        function revealImpostorFinal() {
+            clearInterval(impDiscInterval);
+            const impObj = impAssignedRoles.find(r => r.isImpostor);
+            const normalWord = impAssignedRoles.find(r => !r.isImpostor).word;
+            document.getElementById('impostor-reveal-name').innerText = impObj.name;
+            document.getElementById('impostor-words-info').innerHTML = `Cuvântul celorlalți: <b>"${normalWord}"</b><br>Impostor: <span style="color: var(--accent);"><b>"${impObj.word}"</b></span>`;
+            switchScreen('screen-impostor-result');
+        }
+
+        // ================= CHOOSE THE... GAME LOGIC =================
+        function openChooseSetup() {
+            currentApp = 'choose';
+            setPlayerCount(3, 'choose');
+            switchScreen('screen-choose-setup');
+        }
+
+        function setChooseDiff(diff) {
+            chooseDiff = diff;
+            document.getElementById('choose-diff-easy').classList.toggle('selected', diff === 'easy');
+            document.getElementById('choose-diff-hard').classList.toggle('selected', diff === 'hard');
+        }
+
+        function startChooseGame() {
+            openedBoxesData = [];
+            const container = document.getElementById('choices-board-container');
+            container.innerHTML = '';
+            let totalBoxes = Math.max(chooseDiff === 'easy' ? 4 : 8, choosePlayerCount);
+            let safeCountNeeded = chooseDiff === 'easy' ? (totalBoxes - 1) : 1;
+            
+            let safeItems = pullRandomItems(availSafePool, masterSafePool, safeCountNeeded);
+            let unsafeItems = pullRandomItems(availUnsafePool, masterUnsafePool, totalBoxes - safeCountNeeded);
+            
+            let optionsArray = [...safeItems.map(t=>({t, s:true})), ...unsafeItems.map(t=>({t, s:false}))].sort(()=>0.5-Math.random());
+
+            optionsArray.forEach((opt, index) => {
+                const box = document.createElement('div');
+                box.className = 'mystery-box';
+                box.innerHTML = `❓<br>Cutia ${index + 1}`;
+                box.onclick = function() {
+                    if (this.classList.contains('revealed')) return;
+                    this.classList.add('revealed', opt.s ? 'safe' : 'unsafe');
+                    this.innerHTML = `<div class="mystery-box-title">${opt.s ? '🎉 SAFE' : '💀 UNSAFE'}</div>${opt.t}`;
+                    openedBoxesData.push({ boxNumber: index + 1, safe: opt.s, text: opt.t });
+                };
+                container.appendChild(box);
+            });
+            switchScreen('screen-choose-board');
+        }
+
+        function showChooseFinalSummary() {
+            const container = document.getElementById('choose-final-summary');
+            container.innerHTML = openedBoxesData.length === 0 ? `<p>Nicio cutie deschisă.</p>` : '';
+            openedBoxesData.forEach(res => {
+                container.innerHTML += `<div style="background:rgba(15,23,42,0.8); border:1px solid ${res.safe?'var(--success)':'var(--danger)'}; border-radius:12px; padding:12px; margin-bottom:8px; text-align:left;"><b>Cutia ${res.boxNumber}:</b> <span style="color:${res.safe?'#4ade80':'#f87171'}">${res.safe?'SAFE':'UNSAFE'}</span><br><span style="font-size:0.85rem; color:var(--text-secondary);">${res.text}</span></div>`;
+            });
+            switchScreen('screen-choose-final');
+        }
+
+        // ================= WHAT U GET? (AUCTION) GAME LOGIC =================
+        function openAuctionSetup() {
+            currentApp = 'auction';
+            setPlayerCount(3, 'auc');
+            setAucRoundCount(3);
+            switchScreen('screen-auction-setup');
+        }
+
+        function setAucRoundCount(count) {
+            aucRoundCount = count;
+            generateOptionsGrid(3, 9, aucRoundCount, 'auc-round-grid', "setAucRoundCount");
+        }
+
+        function renderAuctionInputs() {
+            const container = document.getElementById('auction-inputs-box');
+            container.innerHTML = '';
+            for (let i = 0; i < aucPlayerCount; i++) {
+                const defaultCol = defaultColors[i % defaultColors.length];
+                container.innerHTML += `
+                    <div class="player-input-row">
+                        <input type="color" id="auc-c-${i}" value="${defaultCol}">
+                        <input type="text" id="auc-p-${i}" placeholder="Nume Jucător ${i + 1}" style="margin:0;">
+                    </div>
+                `;
+            }
+        }
+
+        function initAuctionGame() {
+            aucPlayers = [];
+            for (let i = 0; i < aucPlayerCount; i++) {
+                let name = document.getElementById(`auc-p-${i}`).value.trim() || `Jucător ${i+1}`;
+                let color = document.getElementById(`auc-c-${i}`).value;
+                aucPlayers.push({ name, color, money: 20, items: [], votes: 0, idx: i });
+            }
+            
+            aucScenario = pullRandomItems(availAuctionScenarios, masterAuctionScenarios, 1)[0];
+            document.getElementById('auc-scenario-title').innerText = aucScenario;
+            aucCurrentRound = 0;
+            
+            switchScreen('screen-auction-scenario');
+        }
+
+        function startAuctionRound() {
+            aucCurrentRound++;
+            if (aucCurrentRound > aucRoundCount) {
+                return startVotingPhase();
+            }
+
+            aucCurrentItem = pullRandomItems(availAuctionItems, masterAuctionItems, 1)[0];
+            aucCurrentBid = 0;
+            aucHighestBidderIdx = -1;
+            aucTimer = 30;
+
+            document.getElementById('auc-round-badge').innerText = `Runda ${aucCurrentRound} / ${aucRoundCount}`;
+            document.getElementById('auc-item-name').innerText = aucCurrentItem;
+            document.getElementById('auc-current-bid').innerText = `$0`;
+            document.getElementById('auc-highest-bidder').innerText = `Niciun pariu`;
+            document.getElementById('auc-timer').innerText = `30s`;
+            document.getElementById('auc-next-round-btn').style.display = 'none';
+
+            renderAuctionBidGrid();
+            switchScreen('screen-auction-board');
+
+            clearIntervals();
+            aucInterval = setInterval(() => {
+                aucTimer--;
+                document.getElementById('auc-timer').innerText = `${aucTimer}s`;
+                if (aucTimer <= 0) {
+                    endAuctionRound();
+                }
+            }, 1000);
+        }
+
+        function renderAuctionBidGrid() {
+            const grid = document.getElementById('auc-bid-grid');
+            grid.innerHTML = '';
+            aucPlayers.forEach((p, idx) => {
+                // Poate paria doar daca are destui bani pentru bid+1 si NU este deja el highest bidder
+                const canBid = p.money >= (aucCurrentBid + 1) && aucHighestBidderIdx !== idx;
+                
+                grid.innerHTML += `
+                    <button class="bid-btn" id="auc-btn-${idx}" 
+                        style="border-color: ${p.color}; box-shadow: ${canBid ? `0 0 10px ${p.color}40` : 'none'};" 
+                        ${canBid ? `onclick="placeBid(${idx})"` : 'disabled'}>
+                        <span style="color: ${p.color};">${p.name}</span>
+                        <span class="bid-money">Bani: $${p.money}</span>
+                        <span style="font-size:1.1rem;">+ $1</span>
+                    </button>
+                `;
+            });
+        }
+
+        function placeBid(playerIdx) {
+            if (aucTimer <= 0) return;
+            const p = aucPlayers[playerIdx];
+            
+            if (p.money > aucCurrentBid) {
+                aucCurrentBid++;
+                aucHighestBidderIdx = playerIdx;
+                
+                document.getElementById('auc-current-bid').innerText = `$${aucCurrentBid}`;
+                document.getElementById('auc-highest-bidder').innerHTML = `Deținut de <span style="color:${p.color};">${p.name}</span>`;
+                
+                // Refresh grid states
+                renderAuctionBidGrid();
+            }
+        }
+
+        function endAuctionRound() {
+            clearInterval(aucInterval);
+            document.getElementById('auc-timer').innerText = `Adjudecat!`;
+            
+            if (aucHighestBidderIdx !== -1) {
+                const winner = aucPlayers[aucHighestBidderIdx];
+                winner.money -= aucCurrentBid;
+                winner.items.push(aucCurrentItem);
+                document.getElementById('auc-highest-bidder').innerHTML = `Vândut lui <span style="color:${winner.color}; font-weight:bold;">${winner.name}</span> pentru $${aucCurrentBid}!`;
+            } else {
+                document.getElementById('auc-highest-bidder').innerHTML = `<span style="color:var(--text-secondary);">Obiect nevândut.</span>`;
+            }
+
+            // Disable all buttons
+            document.querySelectorAll('.bid-btn').forEach(b => b.disabled = true);
+            document.getElementById('auc-next-round-btn').style.display = 'block';
+        }
+
+        function nextAuctionPhase() {
+            startAuctionRound();
+        }
+
+        function startVotingPhase() {
+            aucVotingPlayerIdx = 0;
+            document.getElementById('auc-vote-scenario').innerText = `Scenariu: ${aucScenario}`;
+            renderVotingScreen();
+            switchScreen('screen-auction-vote');
+        }
+
+        function renderVotingScreen() {
+            // Arată inventarele
+            const invList = document.getElementById('auc-inventories-list');
+            invList.innerHTML = '';
+            aucPlayers.forEach(p => {
+                let itemsHtml = p.items.length > 0 ? p.items.map(i => `• ${i}`).join('<br>') : 'Niciun obiect.';
+                invList.innerHTML += `
+                    <div class="inventory-list" style="border-left: 4px solid ${p.color};">
+                        <b style="color:${p.color};">${p.name}</b> (Rămas: $${p.money})<br>
+                        <div style="font-size:0.85rem; color:var(--text-secondary); margin-top:5px;">${itemsHtml}</div>
+                    </div>
+                `;
+            });
+
+            // Arată cine votează
+            const voter = aucPlayers[aucVotingPlayerIdx];
+            document.getElementById('auc-voting-player').innerText = voter.name;
+            document.getElementById('auc-voting-player').style.color = voter.color;
+
+            // Arată butoanele de vot (nu poți vota cu tine însuți)
+            const btns = document.getElementById('auc-vote-buttons');
+            btns.innerHTML = '';
+            aucPlayers.forEach((p, idx) => {
+                if (idx !== aucVotingPlayerIdx) {
+                    btns.innerHTML += `<div class="option-card" style="border-color:${p.color}; color:${p.color};" onclick="castAuctionVote(${idx})">${p.name}</div>`;
+                }
+            });
+        }
+
+        function castAuctionVote(votedForIdx) {
+            aucPlayers[votedForIdx].votes++;
+            aucVotingPlayerIdx++;
+            
+            if (aucVotingPlayerIdx >= aucPlayerCount) {
+                showAuctionResults();
+            } else {
+                renderVotingScreen();
+            }
+        }
+
+        function showAuctionResults() {
+            // Sort by votes (descending)
+            aucPlayers.sort((a, b) => b.votes - a.votes);
+            const winner = aucPlayers[0];
+
+            document.getElementById('auc-winner-name').innerText = `${winner.name} (${winner.votes} voturi)`;
+            document.getElementById('auc-winner-name').style.color = winner.color;
+            
+            const itemsList = winner.items.length > 0 ? winner.items.join(', ') : 'Fără obiecte, dar s-a descurcat din vorbe!';
+            document.getElementById('auc-winner-inventory').innerText = `Inventar salvator: ${itemsList}. Bani rămași: $${winner.money}.`;
+
+            switchScreen('screen-auction-results');
+        }
+
+    </script>
 </body>
 </html>
-
